@@ -1,5 +1,6 @@
 package com.doctor_service.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -19,7 +20,7 @@ public class TimeSlots {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appointment_schedule_id")
-    @JsonManagedReference
+    @JsonBackReference
     private DoctorAppointmentSchedule doctorAppointmentSchedule;
 
     public DoctorAppointmentSchedule getDoctorAppointmentSchedule() {

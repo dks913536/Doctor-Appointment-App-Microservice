@@ -1,5 +1,6 @@
 package com.doctor_service.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -17,7 +18,7 @@ public class DoctorAppointmentSchedule {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id")
-    @JsonManagedReference
+    @JsonBackReference
     private Doctor doctor;
 
     @OneToMany(mappedBy = "doctorAppointmentSchedule", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
