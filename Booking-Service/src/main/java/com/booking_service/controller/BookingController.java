@@ -48,7 +48,7 @@ public class BookingController {
             if(localDate.isEqual(date)){
                 List<TimeSlots> timeSlots=app.getTimeSlots();
                 for(TimeSlots t:timeSlots){
-                    if(timeSlots.equals(time)){
+                    if(t.getTime().equals(time)){
                         System.out.println("Complete Booking");
                     }
                 }
