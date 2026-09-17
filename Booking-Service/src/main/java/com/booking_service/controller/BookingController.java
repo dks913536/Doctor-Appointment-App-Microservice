@@ -7,6 +7,7 @@ import com.booking_service.dto.DoctorAppointmentSchedule;
 import com.booking_service.dto.Patient;
 import com.booking_service.dto.TimeSlots;
 import com.booking_service.entity.BookingConfirmation;
+import com.booking_service.repository.BookingConfirmationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +28,9 @@ public class BookingController {
     @Autowired
     private PatientClient patientClient;
 
+    @Autowired
+    private BookingConfirmationRepository bookingConfirmationRepository;
+
     // Example: http://localhost:8083/api/v1/booking/getdoctor?doctorId=1&patientId=1
 
     @GetMapping("/getdoctor")
@@ -41,6 +45,8 @@ public class BookingController {
 
         BookingConfirmation bookingConfirmation=new BookingConfirmation();
         bookingConfirmation.setDoctorName(d.getName());
+        bookingConfirmation.setPatientName(p.getName());
+        bookingConfirmation.setAddress(d.getAddress());
         List<DoctorAppointmentSchedule> appointmentSchedules=d.getAppointmentSchedules();
 
         for(DoctorAppointmentSchedule app:appointmentSchedules){
@@ -49,11 +55,15 @@ public class BookingController {
                 List<TimeSlots> timeSlots=app.getTimeSlots();
                 for(TimeSlots t:timeSlots){
                     if(t.getTime().equals(time)){
-                        System.out.println("Complete Booking");
+                        bookingConfirmation.setDate(date);
+                        bookingConfirmation.setTime(time);
                     }
                 }
             }
         }
+        // save booking confirmation
+        BookingConfirmation saveBookingConfirmation=bookingConfirmationRepository.save(bookingConfirmation);
+
         return "Done";
     }
 
