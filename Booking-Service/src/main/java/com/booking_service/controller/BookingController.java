@@ -31,10 +31,10 @@ public class BookingController {
     @Autowired
     private BookingConfirmationRepository bookingConfirmationRepository;
 
-    // Example: http://localhost:8083/api/v1/booking/getdoctor?doctorId=1&patientId=1
+    // Example: http://localhost:8083/api/v1/booking/book?doctorId=1&patientId=1
 
-    @GetMapping("/getdoctor")
-    public String getDoctorById(
+    @GetMapping("/book")
+    public String bookAppointment(
             @RequestParam Long doctorId,
             @RequestParam Long patientId,
             @RequestParam LocalDate date,
