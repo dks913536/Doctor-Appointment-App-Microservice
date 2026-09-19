@@ -8,6 +8,7 @@ import com.booking_service.dto.Patient;
 import com.booking_service.dto.TimeSlots;
 import com.booking_service.entity.BookingConfirmation;
 import com.booking_service.repository.BookingConfirmationRepository;
+import jdk.jfr.Frequency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,11 +35,14 @@ public class BookingController {
     // Example: http://localhost:8083/api/v1/booking/book?doctorId=1&patientId=1
 
     @GetMapping("/book")
-    public String bookAppointment(
+    public long bookAppointment(
             @RequestParam Long doctorId,
             @RequestParam Long patientId,
             @RequestParam LocalDate date,
-            @RequestParam LocalTime time
+            @RequestParam LocalTime time,
+            @RequestParam String clinicName,
+            @RequestParam float amount
+
     ){
         Patient p=patientClient.getPatientById(patientId);
         Doctor d= doctorClient.getDoctorById(doctorId);
@@ -47,6 +51,8 @@ public class BookingController {
         bookingConfirmation.setDoctorName(d.getName());
         bookingConfirmation.setPatientName(p.getName());
         bookingConfirmation.setAddress(d.getAddress());
+        bookingConfirmation.setAmount(amount);
+        bookingConfirmation.setClinicName(clinicName);
         List<DoctorAppointmentSchedule> appointmentSchedules=d.getAppointmentSchedules();
 
         for(DoctorAppointmentSchedule app:appointmentSchedules){
@@ -64,7 +70,12 @@ public class BookingController {
         // save booking confirmation
         BookingConfirmation saveBookingConfirmation=bookingConfirmationRepository.save(bookingConfirmation);
 
-        return "Done";
+        return saveBookingConfirmation.getId();
+    }
+
+    @GetMapping("/getBookingById")
+    public BookingConfirmation getBookingById(@RequestParam long bookingId){
+        return bookingConfirmationRepository.findById(bookingId).get();
     }
 
 }

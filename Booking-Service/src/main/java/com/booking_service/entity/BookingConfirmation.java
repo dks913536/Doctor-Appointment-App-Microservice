@@ -13,16 +13,14 @@ public class BookingConfirmation {
     private Long id;
 
     private String doctorName;
-
     private String patientName;
-
     private String address;
-
     private LocalDate date;
-
     private LocalTime time;
-
     private boolean status;
+    private float amount;
+    private String clinicName;
+
 
     public long getId() {
         return id;
@@ -78,5 +76,21 @@ public class BookingConfirmation {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public float getAmount() {
+        return amount;
+    }
+
+    public void setAmount(float amount) {
+        this.amount = amount;
+    }
+
+    public String getClinicName() {
+        return clinicName;
+    }
+
+    public void setClinicName(String clinicName) {
+        this.clinicName = clinicName;
     }
 }
