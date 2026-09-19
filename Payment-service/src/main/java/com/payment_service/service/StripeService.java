@@ -35,7 +35,7 @@ public class StripeService {
                                 productRequest.getCurrency() != null
                                         ? productRequest.getCurrency() : "USD"
                                 )
-                        .setUnitAmount(productRequest.getAmount())
+                        .setUnitAmount((long) productRequest.getAmount())
                         .setProductData(productData)
                         .build();
 

@@ -2,16 +2,16 @@ package com.payment_service.dto;
 
 public class ProductRequest {
 
-    private Long amount;
+    private float amount;
     private Long quantity;
     private String name;
     private String currency;
 
-    public Long getAmount() {
+    public float getAmount() {
         return amount;
     }
 
-    public void setAmount(Long amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 

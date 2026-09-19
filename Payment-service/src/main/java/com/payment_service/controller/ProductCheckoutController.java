@@ -1,5 +1,7 @@
 package com.payment_service.controller;
 
+import com.payment_service.client.BookingClient;
+import com.payment_service.dto.BookingConfirmation;
 import com.payment_service.dto.ProductRequest;
 import com.payment_service.dto.StripeResponse;
 import com.payment_service.service.StripeService;
@@ -24,12 +26,27 @@ public class ProductCheckoutController {
 
     private StripeService stripeService;
 
-    public ProductCheckoutController(StripeService stripeService) {
+    private BookingClient bookingClient;
+
+    public ProductCheckoutController(StripeService stripeService,BookingClient bookingClient) {
         this.stripeService = stripeService;
+        this.bookingClient=bookingClient;
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<StripeResponse> checkoutProducts(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<StripeResponse> checkoutProducts(
+            @RequestParam long bookingId
+//            @RequestBody ProductRequest productRequest
+
+    ) {
+        BookingConfirmation bookingDetails = bookingClient.getBookingById(bookingId);
+        ProductRequest productRequest=new ProductRequest();
+        productRequest.setName(bookingDetails.getClinicName());
+        productRequest.setAmount(bookingDetails.getAmount());
+        productRequest.setCurrency("USD");
+        productRequest.setQuantity(1L);
+
+
         StripeResponse stripeResponse = stripeService.checkoutProducts(productRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
