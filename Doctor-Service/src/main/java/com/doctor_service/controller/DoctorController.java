@@ -42,8 +42,14 @@ public class DoctorController {
     // S3 part
 
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadImage(@RequestParam("file")MultipartFile file) throws Exception{
+    public ResponseEntity<String> uploadImage(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam long doctorId
+    ) throws Exception{
         String imageUrl=s3Service.uploadFile(file);
+        Doctor doctor = doctorRepository.findById(doctorId).get();
+        doctor.setUrl(imageUrl);
+        doctorRepository.save(doctor);
 
         return ResponseEntity.ok(imageUrl);
     }
