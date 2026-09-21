@@ -10,10 +10,7 @@ import com.booking_service.entity.BookingConfirmation;
 import com.booking_service.repository.BookingConfirmationRepository;
 import jdk.jfr.Frequency;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -76,6 +73,14 @@ public class BookingController {
     @GetMapping("/getBookingById")
     public BookingConfirmation getBookingById(@RequestParam long bookingId){
         return bookingConfirmationRepository.findById(bookingId).get();
+    }
+
+    @PutMapping("/update-booking")
+    public String updateBookingStatus(@RequestParam long bookingId){
+        BookingConfirmation bookingConfirmation = bookingConfirmationRepository.findById(bookingId).get();
+        bookingConfirmation.setStatus(true);
+        BookingConfirmation updated = bookingConfirmationRepository.save(bookingConfirmation);
+        return "Updated";
     }
 
 }
