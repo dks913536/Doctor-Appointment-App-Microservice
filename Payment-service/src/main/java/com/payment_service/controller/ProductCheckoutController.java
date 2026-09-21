@@ -45,7 +45,7 @@ public class ProductCheckoutController {
         productRequest.setAmount(bookingDetails.getAmount());
         productRequest.setCurrency("USD");
         productRequest.setQuantity(1L);
-
+        productRequest.setBookingId(bookingId);
 
         StripeResponse stripeResponse = stripeService.checkoutProducts(productRequest);
         return ResponseEntity
@@ -54,7 +54,10 @@ public class ProductCheckoutController {
     }
 
     @GetMapping("/success")
-    public ResponseEntity<String> handleSuccess(@RequestParam("session_id") String sessionId) {
+    public ResponseEntity<String> handleSuccess(
+            @RequestParam("session_id") String sessionId
+
+    ) {
         Stripe.apiKey = "";
 
         try {
@@ -63,6 +66,7 @@ public class ProductCheckoutController {
 
             if ("paid".equalsIgnoreCase(paymentStatus)) {
                 System.out.println("✅ Payment successful: true");
+                bookingClient.updateBookingStatus(Long.parseLong(session.getMetadata().get("bookingId")));
                 return ResponseEntity.ok("Payment successful");
             } else {
                 System.out.println("❌ Payment not completed: false");
