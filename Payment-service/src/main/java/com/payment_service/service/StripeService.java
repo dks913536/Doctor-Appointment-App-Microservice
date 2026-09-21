@@ -53,6 +53,10 @@ public class StripeService {
                         .setMode(SessionCreateParams.Mode.PAYMENT)
                         .setSuccessUrl("http://localhost:8080/product/v1/success?session_id={CHECKOUT_SESSION_ID}")
                         .setCancelUrl("http://localhost:8080/cancel")
+                        .putMetadata(
+                                "bookingId",
+                                String.valueOf(productRequest.getBookingId())
+                        )
                         .addLineItem(lineItem)
                         .build();
 
