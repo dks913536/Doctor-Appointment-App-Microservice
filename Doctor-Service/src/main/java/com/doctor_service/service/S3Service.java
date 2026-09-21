@@ -19,7 +19,7 @@ public class S3Service {
     @Value("${aws.s3.bucket}")
     private String bucketName;
 
-    public String uploadImage(MultipartFile file) throws IOException {
+    public String uploadFile(MultipartFile file) throws IOException {
 
         // Generating unique filename
         String fileName= UUID.randomUUID() + "_"+ file.getOriginalFilename();
