@@ -6,6 +6,7 @@ public class ProductRequest {
     private Long quantity;
     private String name;
     private String currency;
+    private long bookingId;
 
     public float getAmount() {
         return amount;
@@ -37,5 +38,13 @@ public class ProductRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public long getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(long bookingId) {
+        this.bookingId = bookingId;
     }
 }
